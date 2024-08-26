@@ -44,7 +44,7 @@ function UserInputComponent({ setParseData, setLoading }: { setParseData: React.
     };
 
     const handleSubmit = () => {
-        setLoading(true)
+        
         if (!front || !back) {
             setError("Aadhaar front and back images needed");
             return;
@@ -63,7 +63,7 @@ function UserInputComponent({ setParseData, setLoading }: { setParseData: React.
         const formData = new FormData();
         formData.append('images', front);
         formData.append('images', back);
-
+        setLoading(true)
         axios.post(import.meta.env.VITE_SERVER_URL + '/api/ocr', formData, {
             headers: {
                 'Content-Type': 'multipart/form-data',
