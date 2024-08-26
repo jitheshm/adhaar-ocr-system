@@ -76,7 +76,7 @@ function UserInputComponent({ setParseData, setLoading }: { setParseData: React.
             })
             .catch((err) => {
                 console.error(err);
-                setError(err.response.data.message)
+                setError(err.response.data.message ?? 'Image not processable')
                 setLoading(false)
             });
     };
