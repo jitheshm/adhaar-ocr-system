@@ -1,4 +1,3 @@
-import React from 'react'
 import { ExtractedInfo } from '../types/ExtractedInfo'
 
 function ParsedOutputComponent({ parseData }: { parseData: ExtractedInfo | null }) {

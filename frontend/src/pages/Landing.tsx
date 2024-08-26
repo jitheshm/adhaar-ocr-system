@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import  { useState } from 'react';
 import UserInputComponent from '../components/UserInputComponent';
 import ParsedOutputComponent from '../components/ParsedOutputComponent';
 import { ExtractedInfo } from '../types/ExtractedInfo';
