@@ -21,6 +21,9 @@ const imageSchema = z
     })
     .refine((file) => file.size <= 5 * 1024 * 1024, {
         message: 'Image size should be less than 5MB',
+    })
+    .refine((file) => ['image/jpeg', 'image/png'].includes(file.type), {
+        message: 'Image must be in JPG or PNG format',
     });
 
 function UserInputComponent({ setParseData, setLoading }: { setParseData: React.Dispatch<React.SetStateAction<ExtractedInfo | null>>, setLoading: React.Dispatch<React.SetStateAction<boolean>> }) {
@@ -73,6 +76,8 @@ function UserInputComponent({ setParseData, setLoading }: { setParseData: React.
             })
             .catch((err) => {
                 console.error(err);
+                setError(err.response.data.message)
+                setLoading(false)
             });
     };
 

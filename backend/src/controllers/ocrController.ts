@@ -19,11 +19,17 @@ export default async (req: Request, res: Response) => {
         const ocrResults = await Promise.all(processedBuffers.map(buffer =>
             Tesseract.recognize(buffer, 'eng', {
                 logger: (m) => console.log(m), // Log progress
-            }).then(({ data: { text } }) => text)
+            }).then(({ data: { text } }) => text).catch((err) => {
+                console.log(err);
+                throw err
+            })
         ));
 
         const cleanedTexts = ocrResults.map(text => cleanText(text));
         const extractData = extractDetails(cleanedTexts)
+        if (!extractData) {
+            return res.status(422).json({ status: false, message: "Image is not processable" })
+        }
 
         res.status(200).json({ status: true, data: extractData, message: "Parsing Successfull" });
     } catch (error) {

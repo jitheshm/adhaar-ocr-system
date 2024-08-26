@@ -9,7 +9,7 @@ type ExtractedInfo = {
     isUidSame: string
 };
 
-const extractInfo = (texts: string[]): ExtractedInfo => {
+const extractInfo = (texts: string[]): ExtractedInfo|null => {
     const data = texts.join(' ');
 
     let uid: string | null = null;
@@ -39,12 +39,12 @@ const extractInfo = (texts: string[]): ExtractedInfo => {
     const pincodeMatch = data.match(pincodePattern) ?? [];
     console.log(data);
 
-    name = String(matches);
+    name = matches ? String(matches) : '';
     uid = String(checkData?.every(str => str === checkData[0]) ? checkData[0] : '');
-    dob = String(dobMatch[0]);
-    gender = String(genderMatch[0]);
-    address = String(addressMatch[1].trim());
-    pincode = String(pincodeMatch[0]);
+    dob = dobMatch[0] ? String(dobMatch[0]) : '';
+    gender = genderMatch[0] ? String(genderMatch[0]) : '';
+    address = addressMatch[1] ? String(addressMatch[1]?.trim()) : '';
+    pincode = pincodeMatch[0] ? String(pincodeMatch[0]) : '';
 
     console.log(name);
 
@@ -82,17 +82,23 @@ const extractInfo = (texts: string[]): ExtractedInfo => {
             age_band = '80+';
             break;
     }
+    
+    if (uid && name && dob && gender && address && pincode) {
+        return {
+            UID: uid ?? '',
+            Name: name ?? '',
+            DOB: dob ?? '',
+            Gender: gender ?? '',
+            address: address ?? '',
+            pincode: pincode ?? '',
+            age_band: age_band ?? '',
+            isUidSame: uid ? 'yes' : 'NO'
+        };
+    }
+    else {
+        return null
+    }
 
-    return {
-        UID: uid ?? '',
-        Name: name ?? '',
-        DOB: dob ?? '',
-        Gender: gender ?? '',
-        address: address ?? '',
-        pincode: pincode ?? '',
-        age_band: age_band ?? '',
-        isUidSame: uid ? 'yes' : 'NO'
-    };
 }
 
 export default extractInfo;
